@@ -4,16 +4,30 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/analyze", methods=["POST"])
-def analyze():
-    file = request.files["file"]
+@app.route("/")
+def home():
+    return "Hex_Specter backend online 💀"
 
+@app.route("/scan", methods=["POST"])
+def scan_file():
+    file = request.files.get("file")
+
+    if not file:
+        return jsonify({"error": "No file uploaded"}), 400
+
+    filename = file.filename
+
+    # fake forensic logic (we’ll upgrade later)
     return jsonify({
-        "filename": file.filename,
-        "status": "scanned"
+        "file": filename,
+        "status": "ANALYZED",
+        "risk_level": "LOW",
+        "findings": [
+            "File received successfully",
+            "No suspicious structure detected",
+            "Scan completed (demo mode)"
+        ]
     })
 
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
