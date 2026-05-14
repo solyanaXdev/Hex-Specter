@@ -2,39 +2,128 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# 🌐 Homepage (fixes 404)
 @app.route("/")
 def home():
-    return """
-    <html>
-        <head>
-            <title>Hex Specter</title>
-        </head>
-        <body style="background:black;color:lime;font-family:monospace;text-align:center;padding-top:50px;">
-            <h1>💀 HEX SPECTER ACTIVE</h1>
-            <p>Cyber Security Tool is Running</p>
-            <p>Endpoint: /analyze</p>
-        </body>
-    </html>
-    """
+    return "HEX SPECTER ACTIVE"
 
-# 🔍 File scan endpoint
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    if "file" not in request.files:
-        return jsonify({
-            "error": "No file uploaded"
-        }), 400
-
-    file = request.files["file"]
-
     return jsonify({
-        "filename": file.filename,
-        "status": "scanned successfully",
-        "result": "safe (demo response)"
+        "status": "working",
+        "message": "backend alive"
     })
 
+if __name__ == "__main__":
+    app.run()from flask import Flask, request, jsonify
 
-# 🚀 run server (needed for Render)
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "HEX SPECTER ACTIVE"
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    return jsonify({
+        "status": "working",
+        "message": "backend alive"
+    })
+
+if __name__ == "__main__":
+    app.run()from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "HEX SPECTER ACTIVE"
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    return jsonify({
+        "status": "working",
+        "message": "backend alive"
+    })
+
+if __name__ == "__main__":
+    app.run()from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "HEX SPECTER ACTIVE"
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    return jsonify({
+        "status": "working",
+        "message": "backend alive"
+    })
+
+if __name__ == "__main__":
+    app.run()from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "HEX SPECTER ACTIVE"
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    return jsonify({
+        "status": "working",
+        "message": "backend alive"
+    })
+
+if __name__ == "__main__":
+    app.run()from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "HEX SPECTER ACTIVE"
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    return jsonify({
+        "status": "working",
+        "message": "backend alive"
+    })
+
+if __name__ == "__main__":
+    app.run()from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "HEX SPECTER ACTIVE"
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    return jsonify({
+        "status": "working",
+        "message": "backend alive"
+    })
+
+if __name__ == "__main__":
+    app.run()from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "HEX SPECTER ACTIVE"
+
+@app.route("/analyze", methods=["POST"])
+def analyze():
+    return jsonify({
+        "status": "working",
+        "message": "backend alive"
+    })
+
 if __name__ == "__main__":
     app.run()
