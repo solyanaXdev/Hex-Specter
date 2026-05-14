@@ -1,184 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hex Specter</title>
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+app = Flask(__name__)
+CORS(app)
 
-body {
-    margin: 0;
-    overflow: hidden;
-    background: black;
-    font-family: 'Orbitron', monospace;
-    color: #b026ff;
-}
+@app.route("/")
+def home():
+    return "Hex Specter online 💀"
 
-/* MATRIX BACKGROUND */
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-}
+@app.route("/scan", methods=["POST"])
+def scan():
+    file = request.files.get("file")
 
-/* MAIN UI */
-.container {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    padding-top: 60px;
-}
+    if not file:
+        return jsonify({"error": "no file"}), 400
 
-h1 {
-    font-size: 55px;
-    text-shadow: 0 0 15px #b026ff;
-}
+    name = file.filename
 
-.card {
-    margin: 20px auto;
-    width: 60%;
-    border: 1px solid #b026ff;
-    padding: 20px;
-    box-shadow: 0 0 20px #6a00ff;
-    background: rgba(0,0,0,0.4);
-}
+    # fake forensic logic (upgrade later)
+    return jsonify({
+        "file": name,
+        "status": "SCANNED",
+        "risk": "LOW",
+        "findings": [
+            "No malware signature found",
+            "No hidden payload detected",
+            "File structure looks normal"
+        ]
+    })
 
-input[type="file"] {
-    margin: 15px;
-    color: #b026ff;
-}
-
-button {
-    background: transparent;
-    border: 1px solid #b026ff;
-    color: #b026ff;
-    padding: 12px 20px;
-    margin: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #b026ff;
-    color: black;
-}
-
-#output {
-    margin-top: 20px;
-    white-space: pre-line;
-    color: #d18cff;
-}
-</style>
-</head>
-
-<body>
-
-<canvas id="matrix"></canvas>
-
-<div class="container">
-    <h1>HEX SPECTER</h1>
-
-    <div class="card">
-        <p>Cyber Forensics Toolkit</p>
-        <p>Status: ONLINE 💜</p>
-    </div>
-
-    <!-- FILE UPLOAD -->
-    <input type="file" id="fileInput">
-
-    <br>
-
-    <button onclick="scanFile()">Start Scan</button>
-    <button onclick="checkSystem()">Check System</button>
-    <button onclick="uploadInfo()">Upload Module</button>
-
-    <div id="output"></div>
-</div>
-
-<script>
-
-/* MATRIX BACKGROUND */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const letters = "01";
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-
-const drops = Array(Math.floor(columns)).fill(1);
-
-function draw() {
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    ctx.fillStyle = "#b026ff";
-    ctx.font = fontSize + "px monospace";
-
-    for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random()*letters.length)];
-        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-
-        if (drops[i]*fontSize > canvas.height && Math.random() > 0.975)
-            drops[i] = 0;
-
-        drops[i]++;
-    }
-}
-setInterval(draw, 33);
-
-/* OUTPUT */
-function show(msg){
-    document.getElementById("output").innerText = msg;
-}
-
-/* 💀 CONNECT TO BACKEND */
-async function scanFile() {
-
-    const fileInput = document.getElementById("fileInput");
-    const file = fileInput.files[0];
-
-    if (!file) {
-        show("⚠️ Select a file first");
-        return;
-    }
-
-    show("Scanning file... 💀");
-
-    let formData = new FormData();
-    formData.append("file", file);
-
-    const res = await fetch("http://127.0.0.1:5000/scan", {
-        method: "POST",
-        body: formData
-    });
-
-    const data = await res.json();
-
-    show(
-        "SCAN COMPLETE 💜\n\n" +
-        "File: " + data.file + "\n" +
-        "Status: " + data.status + "\n" +
-        "Risk: " + data.risk_level + "\n\n" +
-        "Findings:\n- " + data.findings.join("\n- ")
-    );
-}
-
-/* OTHER BUTTONS */
-function checkSystem(){
-    show("SYSTEM OK 💜\nAll modules stable.\nNo threats detected.");
-}
-
-function uploadInfo(){
-    show("Upload module is UI-only for now 💀");
-}
-
-</script>
-
-</body>
-</html>
+if __name__ == "__main__":
+    app.run(debug=True)
